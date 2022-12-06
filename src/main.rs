@@ -9,14 +9,14 @@ struct Cli {
     /// Name of the person to greet
     #[arg(short, long)]
     day: u8,
- 
+
     /// Number of times to greet
     #[arg(short, long)]
     puzzle: u8,
 }
 
- 
- fn main() -> Result<(), Box<dyn std::error::Error>> {
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::parse();
     let day_puzzle = (args.day, args.puzzle);
 
@@ -29,9 +29,13 @@ struct Cli {
         (3, 2) => day_3_puzzle_2(),
         (4, 1) => day_4_puzzle_1(),
         (4, 2) => day_4_puzzle_2(),
+        (5, 1) => day_5_puzzle_1(),
+        (5, 2) => day_5_puzzle_2(),
+        (6, 1) => day_6_puzzle_1(),
+        (6, 2) => day_6_puzzle_2(),
         _ => panic!("{}", format!("No implementation for day {} puzzle {}", day_puzzle.0, day_puzzle.1))
     };
 
     println!("{:?}", result);
     Ok(())
- }
+}

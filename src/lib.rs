@@ -2,6 +2,7 @@ use std::collections::HashSet;
 
 use utils::*;
 use reader::*;
+use constants::*;
 
 mod reader;
 mod utils;
@@ -11,7 +12,7 @@ mod constants;
 
 
 pub fn day_1_puzzle_1() -> String {
-    let lines = lines_from_file(format!("{}day_1.txt", constants::DATA_FOLDER));
+    let lines = lines_from_file(format!("{}day_1.txt", DATA_FOLDER));
     let mut sum_lines: Vec<i32> = sum_lines(lines, "".to_string());
     sum_lines.sort();
     (*sum_lines.last().unwrap()).to_string()
@@ -19,7 +20,7 @@ pub fn day_1_puzzle_1() -> String {
 
 
 pub fn day_1_puzzle_2() -> String {
-    let lines = lines_from_file(format!("{}day_1.txt", constants::DATA_FOLDER));
+    let lines = lines_from_file(format!("{}day_1.txt", DATA_FOLDER));
     let mut sum_lines: Vec<i32> = sum_lines(lines, "".to_string());
     sum_lines.sort();
     let sum: i32 = sum_lines.iter().rev().take(3).sum();
@@ -29,7 +30,7 @@ pub fn day_1_puzzle_2() -> String {
 
 
 pub fn day_2_puzzle_1() -> String {
-    let lines = lines_from_file(format!("{}day_2.txt", constants::DATA_FOLDER));
+    let lines = lines_from_file(format!("{}day_2.txt", DATA_FOLDER));
     let mut total_score: i32 = 0;
 
     for line in lines {
@@ -44,7 +45,7 @@ pub fn day_2_puzzle_1() -> String {
 
 
 pub fn day_2_puzzle_2() -> String {
-    let lines = lines_from_file(format!("{}day_2.txt", constants::DATA_FOLDER));
+    let lines = lines_from_file(format!("{}day_2.txt", DATA_FOLDER));
     let mut total_score: i32 = 0;
 
     for line in lines {
@@ -59,7 +60,7 @@ pub fn day_2_puzzle_2() -> String {
 
 
 pub fn day_3_puzzle_1() -> String {
-    let lines = lines_from_file(format!("{}day_3.txt", constants::DATA_FOLDER));
+    let lines = lines_from_file(format!("{}day_3.txt", DATA_FOLDER));
     let mut total_score: i32 = 0;
 
     for line in lines {
@@ -79,7 +80,7 @@ pub fn day_3_puzzle_1() -> String {
 
 pub fn day_3_puzzle_2() -> String {
     let group_lines = lines_from_file_in_groups(
-        format!("{}day_3.txt", constants::DATA_FOLDER), 3
+        format!("{}day_3.txt", DATA_FOLDER), 3
     );
     let mut total_score: i32 = 0;
 
@@ -97,7 +98,7 @@ pub fn day_3_puzzle_2() -> String {
 
 
 pub fn day_4_puzzle_1() -> String {
-    let lines = lines_from_file(format!("{}day_4.txt", constants::DATA_FOLDER));
+    let lines = lines_from_file(format!("{}day_4.txt", DATA_FOLDER));
     let mut total_score: i32 = 0;
 
     for line in lines {
@@ -116,7 +117,7 @@ pub fn day_4_puzzle_1() -> String {
 
 
 pub fn day_4_puzzle_2() -> String {
-    let lines = lines_from_file(format!("{}day_4.txt", constants::DATA_FOLDER));
+    let lines = lines_from_file(format!("{}day_4.txt", DATA_FOLDER));
     let mut total_score: i32 = 0;
 
     for line in lines {
@@ -131,4 +132,79 @@ pub fn day_4_puzzle_2() -> String {
         }
     };
     total_score.to_string()
+}
+
+
+pub fn day_5_puzzle_1() -> String {
+    let lines = lines_from_file(format!("{}day_5.txt", DATA_FOLDER));
+    let split_index: usize = lines.iter().position(|r| r == "").unwrap();
+    let mut containers: Vec<Vec<String>> = add_container_stacks(
+        lines[0].len(),
+        lines[..(split_index - 1)].iter()
+    );
+    
+    for line in &lines[(split_index + 1)..] {
+        let movements = line.split_whitespace().collect::<Vec<&str>>();
+        let containers_to_move = movements[1].parse::<i32>().unwrap();
+        let stack_to_move_from = movements[3].parse::<usize>().unwrap() - 1;
+        let stack_to_move_to = movements[5].parse::<usize>().unwrap() - 1;
+        
+        containers[stack_to_move_from].reverse();
+        containers[stack_to_move_to].reverse();
+        for _ in 0..containers_to_move {
+            let value = containers[stack_to_move_from].pop().unwrap().to_string();
+            containers[stack_to_move_to].push(
+                value
+            );
+        }
+        containers[stack_to_move_from].reverse();
+        containers[stack_to_move_to].reverse();
+    }
+
+    get_first_element_vec_of_vecs(containers)
+}
+
+
+pub fn day_5_puzzle_2() -> String {
+    let lines = lines_from_file(format!("{}day_5.txt", DATA_FOLDER));
+    let split_index: usize = lines.iter().position(|r| r == "").unwrap();
+    let mut containers: Vec<Vec<String>> = add_container_stacks(
+        lines[0].len(),
+        lines[..(split_index - 1)].iter()
+    );
+    
+    for line in &lines[(split_index + 1)..] {
+        let movements = line.split_whitespace().collect::<Vec<&str>>();
+        let containers_to_move = movements[1].parse::<i32>().unwrap();
+        let stack_to_move_from = movements[3].parse::<usize>().unwrap() - 1;
+        let stack_to_move_to = movements[5].parse::<usize>().unwrap() - 1;
+        
+        containers[stack_to_move_from].reverse();
+        let mut tmp_vec: Vec<String> = Vec::new();
+        for _ in 0..containers_to_move {
+            let value = containers[stack_to_move_from].pop().unwrap().to_string();
+            tmp_vec.push(value);
+        }
+        containers[stack_to_move_from].reverse();
+
+        tmp_vec.append(&mut containers[stack_to_move_to].clone());
+        containers[stack_to_move_to] = tmp_vec;
+
+    }
+
+    get_first_element_vec_of_vecs(containers)
+}
+
+
+pub fn day_6_puzzle_1() -> String {
+    let lines = lines_from_file(format!("{}day_6.txt", DATA_FOLDER));
+    let marker: usize = find_first_marker(&lines[0], 4);
+    marker.to_string()
+}
+
+
+pub fn day_6_puzzle_2() -> String {
+    let lines = lines_from_file(format!("{}day_6.txt", DATA_FOLDER));
+    let marker: usize = find_first_marker(&lines[0], 14);
+    marker.to_string()
 }

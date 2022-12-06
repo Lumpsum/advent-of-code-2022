@@ -124,3 +124,69 @@ pub fn any_overlap_at_all(range_one: Vec<i32>, range_two: Vec<i32>) -> bool {
     }
     false
 }
+
+
+pub fn add_container_stacks<'a, I>(vec_to_create: usize, iterator: I) -> Vec<Vec<String>>
+where
+    I: Iterator<Item = &'a String>,
+    {
+    let mut containers = create_vec_of_vecs(vec_to_create);
+    
+    for line in iterator {
+        let char_line: Vec<char> = line.chars().collect();
+        for index in (1..vec_to_create).step_by(4).enumerate() {
+            let character = char_line[index.1].to_string();
+            if character != " ".to_string() {
+                containers[index.0].push(character);
+            }
+        }
+    }
+
+    containers
+}
+
+
+fn create_vec_of_vecs<T>(vec_to_create: usize) -> Vec<Vec<T>>{
+    let mut containers: Vec<Vec<T>> = Vec::new();
+    
+    for _ in 0..((vec_to_create + 1) / 4) {
+        containers.push(Vec::new());
+    }
+
+    containers
+}
+
+
+pub fn get_first_element_vec_of_vecs(vec_of_vecs: Vec<Vec<String>>) -> String {
+    let mut result_string = String::new();
+    for vec in &vec_of_vecs[..] {
+        result_string.push_str(vec.first().unwrap());
+    }
+    result_string
+}
+
+
+pub fn find_first_marker(text: &String, message_length: usize) -> usize {
+    let mut result: Vec<char> = Vec::new();
+
+    for char in text.chars().enumerate() {
+        result.push(char.1);
+        if char.0 < message_length {
+            continue
+        }
+
+        result.reverse();
+        result.pop();
+        result.reverse();
+
+        let mut unique_chars: HashSet<char> = HashSet::new();
+        for value in &result {
+            unique_chars.insert(value.clone());
+        }
+
+        if unique_chars.len() == message_length {
+            return char.0 + 1
+        }
+    };
+    panic!("No marker found!")
+}
