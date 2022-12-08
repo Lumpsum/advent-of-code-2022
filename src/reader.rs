@@ -4,6 +4,8 @@ use std::{
     path::Path,
 };
 
+use crate::constants::DATA_FOLDER;
+
 
 pub fn lines_from_file(filename: impl AsRef<Path>) -> Vec<String> {
     let file = File::open(filename).expect("no such file");
@@ -26,4 +28,17 @@ pub fn lines_from_file_in_groups(filename: impl AsRef<Path>, group_size: usize) 
         group_lines.push(new_group)
     }
     group_lines
+}
+
+
+pub struct Reader {}
+
+impl Reader {
+    pub fn read(&self, day: usize) -> std::io::Result<String> {
+        let file = File::open(format!("{}day_{}.txt", DATA_FOLDER, day))?;
+        let mut buf_reader = BufReader::new(file);
+        let mut contents = String::new();
+        buf_reader.read_to_string(&mut contents)?;
+        Ok(contents)
+    }
 }

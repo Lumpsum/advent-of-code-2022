@@ -1,3 +1,5 @@
+use crate::reader::Reader;
+
 // pub const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 pub const ALPHABET: [char; 52] = [
     'a', 'b', 'c', 'd', 'e', 
@@ -13,3 +15,4 @@ pub const ALPHABET: [char; 52] = [
     'Y', 'Z'
 ];
 pub const DATA_FOLDER: &str = "./input_data/";
+pub const READER: Reader = Reader {};

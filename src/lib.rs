@@ -11,6 +11,31 @@ mod errors;
 mod constants;
 
 
+pub struct Output<T> {
+    puzzle_1: T,
+    puzzle_2: T
+}
+
+
+pub fn day_1() -> Option<Output<usize>> {
+    let lines = constants::READER.read(1).expect("Could not read file");
+    let input: Vec<Option<usize>> = lines.lines().map(|i| str::parse::<usize>(i)).map(Result::ok).collect();
+    let answer = input
+        .split(|i| i.is_none())
+        .map(
+            |list| list.into_iter()
+            .filter_map(|&i: &Option<usize>| i)
+            .sum()
+        )
+        .max()
+        .unwrap();
+    Some(Output {
+        puzzle_1: answer,
+        puzzle_2: 1
+    })
+}
+
+
 pub fn day_1_puzzle_1() -> String {
     let lines = lines_from_file(format!("{}day_1.txt", DATA_FOLDER));
     let mut sum_lines: Vec<i32> = sum_lines(lines, "".to_string());
