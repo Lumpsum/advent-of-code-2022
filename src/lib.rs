@@ -1,5 +1,8 @@
 use std::collections::HashSet;
 
+use day_1::DayOne;
+use day_2::DayTwo;
+use solution::{Solution, Outcome};
 use utils::*;
 use reader::*;
 use constants::*;
@@ -9,49 +12,36 @@ mod utils;
 mod enums;
 mod errors;
 mod constants;
+mod solution;
+mod day_1;
+mod day_2;
 
 
-pub struct Output<T> {
-    puzzle_1: T,
-    puzzle_2: T
+pub fn run_day_usize(day: usize) -> Option<Outcome<usize>> {
+    match day {
+        1 => DayOne::run(1),
+        2 => DayTwo::run(2),
+        _ => panic!("Day not implemented")
+    }
 }
 
 
-pub fn day_1() -> Option<Output<usize>> {
-    let lines = constants::READER.read(1).expect("Could not read file");
-    let input: Vec<Option<usize>> = lines.lines().map(|i| str::parse::<usize>(i)).map(Result::ok).collect();
-    let answer = input
-        .split(|i| i.is_none())
-        .map(
-            |list| list.into_iter()
-            .filter_map(|&i: &Option<usize>| i)
-            .sum()
-        )
-        .max()
-        .unwrap();
-    Some(Output {
-        puzzle_1: answer,
-        puzzle_2: 1
-    })
-}
+// pub fn day_1_puzzle_1() -> String {
+//     let lines = lines_from_file(format!("{}day_1.txt", DATA_FOLDER));
+//     let mut sum_lines: Vec<i32> = sum_lines(lines, "".to_string());
+//     sum_lines.sort();
+//     (*sum_lines.last().unwrap()).to_string()
+// }
 
 
-pub fn day_1_puzzle_1() -> String {
-    let lines = lines_from_file(format!("{}day_1.txt", DATA_FOLDER));
-    let mut sum_lines: Vec<i32> = sum_lines(lines, "".to_string());
-    sum_lines.sort();
-    (*sum_lines.last().unwrap()).to_string()
-}
-
-
-pub fn day_1_puzzle_2() -> String {
-    let lines = lines_from_file(format!("{}day_1.txt", DATA_FOLDER));
-    let mut sum_lines: Vec<i32> = sum_lines(lines, "".to_string());
-    sum_lines.sort();
-    let sum: i32 = sum_lines.iter().rev().take(3).sum();
+// pub fn day_1_puzzle_2() -> String {
+//     let lines = lines_from_file(format!("{}day_1.txt", DATA_FOLDER));
+//     let mut sum_lines: Vec<i32> = sum_lines(lines, "".to_string());
+//     sum_lines.sort();
+//     let sum: i32 = sum_lines.iter().rev().take(3).sum();
     
-    sum.to_string()
-}
+//     sum.to_string()
+// }
 
 
 pub fn day_2_puzzle_1() -> String {

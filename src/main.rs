@@ -6,7 +6,6 @@ use std::panic;
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Cli {
-    /// Name of the person to greet
     #[arg(short, long)]
     day: u8,
 
@@ -19,7 +18,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::parse();
 
     let result = match args.day {
-        1 => day_1(),
+        1 => run_day_usize(1),
+        2 => run_day_usize(2),
         // (1, 2) => day_1_puzzle_2(),
         // (2, 1) => day_2_puzzle_1(),
         // (2, 2) => day_2_puzzle_2(),
