@@ -20,6 +20,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let result = match args.day {
         1 => run_day_usize(1),
         2 => run_day_usize(2),
+        3 => run_day_usize(3),
         // (1, 2) => day_1_puzzle_2(),
         // (2, 1) => day_2_puzzle_1(),
         // (2, 2) => day_2_puzzle_2(),

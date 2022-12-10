@@ -2,6 +2,7 @@ use std::collections::HashSet;
 
 use day_1::DayOne;
 use day_2::DayTwo;
+use day_3::DayThree;
 use solution::{Solution, Outcome};
 use utils::*;
 use reader::*;
@@ -15,12 +16,14 @@ mod constants;
 mod solution;
 mod day_1;
 mod day_2;
+mod day_3;
 
 
 pub fn run_day_usize(day: usize) -> Option<Outcome<usize>> {
     match day {
         1 => DayOne::run(1),
         2 => DayTwo::run(2),
+        3 => DayThree::run(3),
         _ => panic!("Day not implemented")
     }
 }
@@ -44,34 +47,34 @@ pub fn run_day_usize(day: usize) -> Option<Outcome<usize>> {
 // }
 
 
-pub fn day_2_puzzle_1() -> String {
-    let lines = lines_from_file(format!("{}day_2.txt", DATA_FOLDER));
-    let mut total_score: i32 = 0;
+// pub fn day_2_puzzle_1() -> String {
+//     let lines = lines_from_file(format!("{}day_2.txt", DATA_FOLDER));
+//     let mut total_score: i32 = 0;
 
-    for line in lines {
-        let values: Vec<&str> = line.split(" ").collect::<Vec<&str>>();
-        let opponent_pick = convert_string_to_rps(values[0]).expect("Invalid string passed");
-        let my_pick = convert_string_to_rps(values[1]).expect("Invalid string passed");
-        total_score += my_pick.get_total_score(&opponent_pick);
-    }
+//     for line in lines {
+//         let values: Vec<&str> = line.split(" ").collect::<Vec<&str>>();
+//         let opponent_pick = convert_string_to_rps(values[0]).expect("Invalid string passed");
+//         let my_pick = convert_string_to_rps(values[1]).expect("Invalid string passed");
+//         total_score += my_pick.get_total_score(&opponent_pick);
+//     }
     
-    total_score.to_string()
-}
+//     total_score.to_string()
+// }
 
 
-pub fn day_2_puzzle_2() -> String {
-    let lines = lines_from_file(format!("{}day_2.txt", DATA_FOLDER));
-    let mut total_score: i32 = 0;
+// pub fn day_2_puzzle_2() -> String {
+//     let lines = lines_from_file(format!("{}day_2.txt", DATA_FOLDER));
+//     let mut total_score: i32 = 0;
 
-    for line in lines {
-        let values: Vec<&str> = line.split(" ").collect::<Vec<&str>>();
-        let opponent_pick = convert_string_to_rps(values[0]).expect("Invalid string passed");
-        let my_pick = opponent_pick.get_result_pick(values[1]).expect("Invalid string passed");
-        total_score += my_pick.get_total_score(&opponent_pick);
-    }
+//     for line in lines {
+//         let values: Vec<&str> = line.split(" ").collect::<Vec<&str>>();
+//         let opponent_pick = convert_string_to_rps(values[0]).expect("Invalid string passed");
+//         let my_pick = opponent_pick.get_result_pick(values[1]).expect("Invalid string passed");
+//         total_score += my_pick.get_total_score(&opponent_pick);
+//     }
 
-    total_score.to_string()
-}
+//     total_score.to_string()
+// }
 
 
 pub fn day_3_puzzle_1() -> String {

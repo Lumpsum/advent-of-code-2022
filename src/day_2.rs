@@ -4,7 +4,20 @@ use crate::solution::Solution;
 
 pub struct DayTwo {}
 
-#[derive(Eq, Debug, PartialEq)]
+impl DayTwo {
+    fn sum_score(vec_score: Vec<Score>) -> usize {
+        vec_score.iter().map(|score| score.0).sum()
+    }
+
+    fn play_into_score<'a, T>(iterator: T) -> Vec<Score>
+    where
+        T: Iterator<Item = &'a Play>
+    {
+        iterator.map(|play| Score::from(play)).collect::<Vec<_>>()
+    }
+}
+
+#[derive(Eq, Debug, PartialEq, Copy, Clone)]
 pub enum Hand {
     Rock,
     Paper,
@@ -53,11 +66,6 @@ impl Ord for Hand {
     }
 }
 
-pub struct Play {
-    opponent: Hand,
-    player: Hand
-}
-
 impl FromStr for Hand {
     type Err = String;
 
@@ -66,12 +74,18 @@ impl FromStr for Hand {
             "A" => Ok(Hand::Rock),
             "B" => Ok(Hand::Paper),
             "C" => Ok(Hand::Scissor),
-            "D" => Ok(Hand::Rock),
-            "E" => Ok(Hand::Paper),
-            "F" => Ok(Hand::Scissor),
+
+            "X" => Ok(Hand::Rock),
+            "Y" => Ok(Hand::Paper),
+            "Z" => Ok(Hand::Scissor),
             c => Err(format!("Invalid character: {}", c))
         }
     }
+}
+
+pub struct Play {
+    opponent: Hand,
+    player: Hand
 }
 
 impl FromStr for Play {
@@ -82,6 +96,24 @@ impl FromStr for Play {
             opponent: hands.next().unwrap(),
             player: hands.last().unwrap(),
         })
+    }
+}
+
+impl From<&Strategy> for Play {
+    fn from(strat: &Strategy) -> Self {
+        let play = match (strat.opponent, strat.result) {
+            (_, PlayResult::Draw) => strat.opponent,
+
+            (Hand::Rock, PlayResult::Win) => Hand::Paper,
+            (Hand::Rock, PlayResult::Loss) => Hand::Scissor,
+
+            (Hand::Paper, PlayResult::Win) => Hand::Scissor,
+            (Hand::Paper, PlayResult::Loss) => Hand::Rock,
+
+            (Hand::Scissor, PlayResult::Win) => Hand::Rock,
+            (Hand::Scissor, PlayResult::Loss) => Hand::Paper,
+        };
+        Play { opponent: strat.opponent, player: play }
     }
 }
 
@@ -106,6 +138,31 @@ impl From<&Play> for Score {
     }
 }
 
+#[derive(Eq, PartialEq, Debug, Copy, Clone)]
+enum PlayResult {
+    Win = 'Z' as isize,
+    Draw = 'Y' as isize,
+    Loss = 'X' as isize
+}
+
+
+#[derive(Eq, PartialEq, Debug)]
+struct Strategy {
+    opponent: Hand,
+    result: PlayResult
+}
+
+impl From<&Play> for Strategy {
+    fn from(play: &Play) -> Self {
+        let result = match play.player {
+            Hand::Rock => PlayResult::Loss,
+            Hand::Paper => PlayResult::Draw,
+            Hand::Scissor => PlayResult::Win
+        };
+        Strategy { opponent: play.opponent, result: result }
+    }
+}
+
 
 impl Solution for DayTwo {
     type Input = Vec<Play>;
@@ -116,11 +173,12 @@ impl Solution for DayTwo {
     }
 
     fn puzzle_one(input: &Self::Input) -> Option<Self::Output> {
-        let answer = input.into_iter().map(|play| Score::from(play)).collect::<Vec<_>>();
-        Some(answer.iter().map(|score| score.0).sum())
+        let answer = Self::play_into_score(input.into_iter());
+        Some(Self::sum_score(answer))
     }
 
     fn puzzle_two(input: &Self::Input) -> Option<Self::Output> {
-        None
+        let answer = input.into_iter().map(|line| Strategy::from(line)).map(|strat| Play::from(&strat)).map(|play| Score::from(&play)).collect::<Vec<_>>();
+        Some(Self::sum_score(answer))
     }
 }
