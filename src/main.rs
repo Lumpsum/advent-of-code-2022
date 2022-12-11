@@ -1,4 +1,4 @@
-use advent_of_code::{*};
+use advent_of_code::*;
 use clap::Parser;
 use std::panic;
 
@@ -22,7 +22,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         2 => run_day_usize(2),
         3 => run_day_usize(3),
         4 => run_day_usize(4),
-        5 => run_day_usize(5),
+        5 => run_day_string(5),
+        6 => run_day_usize(6),
         // (1, 2) => day_1_puzzle_2(),
         // (2, 1) => day_2_puzzle_1(),
         // (2, 2) => day_2_puzzle_2(),
@@ -38,8 +39,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     match result {
-        Some(i) => println!("{:?}", i),
-        None => panic!("Invalid outcome")
-    }
+        PuzzleResult::Number(outcome) => {
+            match outcome {
+                Some(i) => println!("{:?}", i),
+                None => println!("Invalid outcome")
+            }
+        },
+        PuzzleResult::Text(outcome) => {
+            match outcome {
+                Some(i) => println!("{:?}", i),
+                None => println!("Invalid outcome")
+            }
+        }
+    };
     Ok(())
 }
