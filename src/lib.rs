@@ -3,6 +3,8 @@ use std::collections::HashSet;
 use day_1::DayOne;
 use day_2::DayTwo;
 use day_3::DayThree;
+use day_4::DayFour;
+use day_5::DayFive;
 use solution::{Solution, Outcome};
 use utils::*;
 use reader::*;
@@ -17,6 +19,8 @@ mod solution;
 mod day_1;
 mod day_2;
 mod day_3;
+mod day_4;
+mod day_5;
 
 
 pub fn run_day_usize(day: usize) -> Option<Outcome<usize>> {
@@ -24,6 +28,8 @@ pub fn run_day_usize(day: usize) -> Option<Outcome<usize>> {
         1 => DayOne::run(1),
         2 => DayTwo::run(2),
         3 => DayThree::run(3),
+        4 => DayFour::run(4),
+        5 => DayFive::run(5),
         _ => panic!("Day not implemented")
     }
 }
