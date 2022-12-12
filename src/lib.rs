@@ -4,6 +4,7 @@ use day_3::DayThree;
 use day_4::DayFour;
 use day_5::DayFive;
 use day_6::DaySix;
+use day_7::DaySeven;
 use solution::{Solution, Outcome};
 
 mod constants;
@@ -15,6 +16,7 @@ mod day_3;
 mod day_4;
 mod day_5;
 mod day_6;
+mod day_7;
 
 
 pub enum PuzzleResult {
@@ -30,6 +32,7 @@ pub fn run_day_usize(day: usize) -> PuzzleResult {
         3 => DayThree::run(3),
         4 => DayFour::run(4),
         6 => DaySix::run(6),
+        7 => DaySeven::run(7),
         _ => panic!("Day not implemented")
     };
     PuzzleResult::Number(result)

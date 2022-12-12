@@ -93,10 +93,10 @@ impl FromStr for Instruction {
 
 
 impl Solution for DayFive {
-    type Input = (ContainerStacks, Instructions);
+    type Input<'a> = (ContainerStacks, Instructions);
     type Output = String;
 
-    fn preprocess(data: &str) -> Self::Input {
+    fn preprocess<'a>(data: &'a str) -> Self::Input<'a> {
         let data_lines = data.lines();
         let mut container_stack = ContainerStacks([
             Stack(Vec::new()),
@@ -129,7 +129,7 @@ impl Solution for DayFive {
         (container_stack, instructions)
     }
 
-    fn puzzle_one(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_one<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         let mut container_stacks = input.0.clone();
         for instruction in input.1.0.iter() {
             container_stacks.move_containers(instruction)
@@ -137,7 +137,7 @@ impl Solution for DayFive {
         container_stacks.print_top_containers()
     }
 
-    fn puzzle_two(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_two<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         let mut container_stacks = input.0.clone();
         for instruction in input.1.0.iter() {
             container_stacks.improved_move_containers(instruction)

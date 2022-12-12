@@ -31,14 +31,14 @@ impl FromStr for SectionAssignmentPair {
 
 
 impl Solution for DayFour {
-    type Input = Vec<SectionAssignmentPair>;
+    type Input<'a> = Vec<SectionAssignmentPair>;
     type Output = usize;
 
-    fn preprocess(data: &str) -> Self::Input {
+    fn preprocess<'a>(data: &'a str) -> Self::Input<'a> {
         data.lines().flat_map(|line| SectionAssignmentPair::from_str(line)).collect::<Vec<SectionAssignmentPair>>()
     }
 
-    fn puzzle_one(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_one<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         Some(input.iter().filter_map(|line| {
             let left_hashset: HashSet<usize> = HashSet::from_iter(line.left.clone());
             let right_hashset: HashSet<usize> = HashSet::from_iter(line.right.clone());
@@ -51,7 +51,7 @@ impl Solution for DayFour {
         }).count())
     }
 
-    fn puzzle_two(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_two<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         Some(input.iter().filter_map(|line| {
             if line.left.contains(&line.right[0]) || line.right.contains(&line.left[0]) {
                 Some(line)

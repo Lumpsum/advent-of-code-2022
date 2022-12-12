@@ -165,19 +165,19 @@ impl From<&Play> for Strategy {
 
 
 impl Solution for DayTwo {
-    type Input = Vec<Play>;
+    type Input<'a> = Vec<Play>;
     type Output = usize;
 
-    fn preprocess(data: &str) -> Self::Input {
+    fn preprocess<'a>(data: &'a str) -> Self::Input<'a> {
         data.lines().filter_map(|line| Play::from_str(line).ok()).collect()
     }
 
-    fn puzzle_one(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_one<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         let answer = Self::play_into_score(input.into_iter());
         Some(Self::sum_score(answer))
     }
 
-    fn puzzle_two(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_two<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         let answer = input.into_iter().map(|line| Strategy::from(line)).map(|strat| Play::from(&strat)).map(|play| Score::from(&play)).collect::<Vec<_>>();
         Some(Self::sum_score(answer))
     }

@@ -26,7 +26,7 @@ where
 
 
 pub trait Solution {
-    type Input;
+    type Input<'a>;
     type Output: Debug;
 
     fn load_data(day: usize) -> String {
@@ -34,12 +34,12 @@ pub trait Solution {
         data
     }
 
-    fn preprocess(data: &str) -> Self::Input;
+    fn preprocess<'a>(data: &'a str) -> Self::Input<'a>;
 
-    fn puzzle_one(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_one<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         None
     }
-    fn puzzle_two(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_two<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         None
     }
 

@@ -24,6 +24,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         4 => run_day_usize(4),
         5 => run_day_string(5),
         6 => run_day_usize(6),
+        7 => run_day_usize(7),
         // (1, 2) => day_1_puzzle_2(),
         // (2, 1) => day_2_puzzle_1(),
         // (2, 2) => day_2_puzzle_2(),

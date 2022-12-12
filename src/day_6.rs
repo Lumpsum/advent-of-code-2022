@@ -17,18 +17,18 @@ fn get_first_unique_set(input: &Vec<char>, set_size: usize) -> Option<usize> {
 
 
 impl Solution for DaySix {
-    type Input = Vec<char>;
+    type Input<'a> = Vec<char>;
     type Output = usize;
 
-    fn preprocess(data: &str) -> Self::Input {
+    fn preprocess<'a>(data: &'a str) -> Self::Input<'a> {
         data.chars().into_iter().collect::<Vec<char>>()
     }
 
-    fn puzzle_one(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_one<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         get_first_unique_set(input, 4)
     }
 
-    fn puzzle_two(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_two<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         get_first_unique_set(input, 14)
     }
 }

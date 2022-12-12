@@ -63,19 +63,19 @@ fn find_common_elements(chunk: &[RuckSack]) -> char {
 }
 
 impl Solution for DayThree {
-    type Input = Vec<RuckSack>;
+    type Input<'a> = Vec<RuckSack>;
     type Output = usize;
 
-    fn preprocess(data: &str) -> Self::Input {
-        data.lines().flat_map(|line| RuckSack::from_str(line).ok()).collect::<Self::Input>()
+    fn preprocess<'a>(data: &'a str) -> Self::Input<'a> {
+        data.lines().flat_map(|line| RuckSack::from_str(line).ok()).collect::<Self::Input<'a>>()
     }
 
-    fn puzzle_one(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_one<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         let answer = input.iter().map(|r| r.find_common_elements()).filter_map(|c| Priority::try_from(c).ok()).collect::<Vec<_>>();
         Some(answer.iter().map(|priority| priority.0).sum())
     }
 
-    fn puzzle_two(input: &Self::Input) -> Option<Self::Output> {
+    fn puzzle_two<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         let answer = input.chunks(3).map(|chunk| find_common_elements(chunk)).filter_map(|c| Priority::try_from(c).ok()).collect::<Vec<_>>();
         Some(answer.iter().map(|priority| priority.0).sum())
     }
