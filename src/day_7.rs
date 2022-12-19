@@ -36,11 +36,13 @@ enum DirContent<'a> {
     File(File<'a>)
 }
 
+#[allow(dead_code)]
 struct Dir<'a> {
     name: &'a str,
     content: Vec<DirContent<'a>>
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 struct File<'a> {
     name: &'a str,

@@ -13,12 +13,12 @@ where
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match &self.puzzle_1 {
-            Some(i) => writeln!(f, "Puzzle 1: {:?}", i),
-            None => writeln!(f, "Puzzle 1 not implemented")
+            Some(i) => writeln!(f, "Puzzle 1: {:?}", i).expect("Could not write!"),
+            None => writeln!(f, "Puzzle 1 not implemented").expect("Could not write!")
         };
         match &self.puzzle_2 {
-            Some(i) => writeln!(f, "Puzzle 2: {:?}", i),
-            None => writeln!(f, "Puzzle 2 not implemented")
+            Some(i) => writeln!(f, "Puzzle 2: {:?}", i).expect("Could not write!"),
+            None => writeln!(f, "Puzzle 2 not implemented").expect("Could not write!")
         };
         Ok(())
     }
@@ -36,9 +36,12 @@ pub trait Solution {
 
     fn preprocess<'a>(data: &'a str) -> Self::Input<'a>;
 
+    #[allow(unused_variables)]
     fn puzzle_one<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         None
     }
+
+    #[allow(unused_variables)]
     fn puzzle_two<'a>(input: &Self::Input<'a>) -> Option<Self::Output> {
         None
     }
